@@ -1,6 +1,6 @@
 package dev.emiliomartinez.bugtracker;
 import javax.swing.SwingUtilities;
-import dev.emiliomartinez.bugtracker.gui.MainFrame;
+import dev.emiliomartinez.bugtracker.gui.main.MainFrame;
 
 public class Main {
 
