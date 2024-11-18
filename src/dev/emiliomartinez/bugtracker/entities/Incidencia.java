@@ -6,7 +6,7 @@ public class Incidencia {
     private String nombreIncidencia;
     private String descripcion;
     private Double horasEstimadas;
-    private Estado estado;
+    private Integer estadoId;
     private Integer proyectoId;
     private Date fechaCreacion;
     private Date fechaActualizacion;
@@ -16,19 +16,19 @@ public class Incidencia {
         this.descripcion = descripcion;
         this.horasEstimadas = horasEstimadas;
         this.proyectoId = proyectoId;
-        this.estado = Estado.ABIERTO;
+        this.estadoId = 1;
         this.fechaCreacion = new Date();
         this.fechaActualizacion = new Date();
     }
 
-    // full constructor
+    // Full Constructor
     public Incidencia(Integer id, String nombreIncidencia, String descripcion, Double horasEstimadas, 
-                     Estado estado, Integer proyectoId, Date fechaCreacion, Date fechaActualizacion) {
+                     Integer estadoId, Integer proyectoId, Date fechaCreacion, Date fechaActualizacion) {
         this.id = id;
         this.nombreIncidencia = nombreIncidencia;
         this.descripcion = descripcion;
         this.horasEstimadas = horasEstimadas;
-        this.estado = estado;
+        this.estadoId = estadoId;
         this.proyectoId = proyectoId;
         this.fechaCreacion = fechaCreacion;
         this.fechaActualizacion = fechaActualizacion;
@@ -51,10 +51,10 @@ public class Incidencia {
         return horasEstimadas;
     }
 
-    public Estado getEstado() {
-        return estado;
+    public Integer getEstadoId() {
+        return estadoId;
     }
-
+    
     public Integer getProyectoId() {
         return proyectoId;
     }
@@ -84,10 +84,10 @@ public class Incidencia {
         this.horasEstimadas = horasEstimadas;
     }
 
-    public void setEstado(Estado estado) {
-        this.estado = estado;
+    public void setEstadoId(Integer estadoId) {
+        this.estadoId = estadoId;
     }
-
+    
     public void setProyectoId(Integer proyectoId) {
         this.proyectoId = proyectoId;
     }
@@ -107,7 +107,7 @@ public class Incidencia {
                 ", nombreIncidencia='" + nombreIncidencia + '\'' +
                 ", descripcion='" + descripcion + '\'' +
                 ", horasEstimadas=" + horasEstimadas +
-                ", estado=" + estado +
+                ", estado=" + estadoId +
                 ", proyectoId=" + proyectoId +
                 ", fechaCreacion=" + fechaCreacion +
                 ", fechaActualizacion=" + fechaActualizacion +

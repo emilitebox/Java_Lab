@@ -21,14 +21,9 @@ public class IncidenciaDAO implements IDAO<Incidencia> {
         this.proyectoDAO = new ProyectoDAO();
     }
 
-    @Override
     public void guardar(Incidencia incidencia) {
-        if (!proyectoDAO.obtenerPorId(incidencia.getProyectoId()).isPresent()) {
-            throw new IllegalArgumentException("El proyecto no existe");
-        }
-
         String sql = "INSERT INTO incidencias (nombreincidencia, descripcion, horasestimadas, " +
-                    "estado, proyectoid, fechacreacion, fechaactualizacion) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    "estadoid, proyectoid, fechacreacion, fechaactualizacion) VALUES (?, ?, ?, ?, ?, ?, ?)";
         
         try (Connection conn = dbConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -36,19 +31,27 @@ public class IncidenciaDAO implements IDAO<Incidencia> {
             stmt.setString(1, incidencia.getNombreIncidencia());
             stmt.setString(2, incidencia.getDescripcion());
             stmt.setDouble(3, incidencia.getHorasEstimadas());
-            stmt.setString(4, incidencia.getEstado().getDescripcion());
+            stmt.setInt(4, 1);
             stmt.setInt(5, incidencia.getProyectoId());
             stmt.setTimestamp(6, new Timestamp(incidencia.getFechaCreacion().getTime()));
-            stmt.setTimestamp(7, new Timestamp(incidencia.getFechaActualizacion().getTime()));
+            stmt.setTimestamp(7, null);
             
-            stmt.executeUpdate();
+            int affectedRows = stmt.executeUpdate();
             
-            ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next()) {
-                incidencia.setId(rs.getInt(1));
+            if (affectedRows == 0) {
+                throw new SQLException("Creating incidencia failed, no rows affected.");
+            }
+
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    incidencia.setId(generatedKeys.getInt(1));
+                } else {
+                    throw new SQLException("Creating incidencia failed, no ID obtained.");
+                }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error al guardar incidencia", e);
+            e.printStackTrace();
+            throw new RuntimeException("Error al guardar incidencia: " + e.getMessage(), e);
         }
     }
 
@@ -96,7 +99,7 @@ public class IncidenciaDAO implements IDAO<Incidencia> {
             rs.getString("nombreincidencia"),
             rs.getString("descripcion"),
             rs.getDouble("horasestimadas"),
-            Estado.valueOf(rs.getString("estado").toUpperCase()),
+            rs.getInt("estadoId"),
             rs.getInt("proyectoid"),
             rs.getTimestamp("fechacreacion"),
             rs.getTimestamp("fechaactualizacion")
@@ -105,22 +108,18 @@ public class IncidenciaDAO implements IDAO<Incidencia> {
 
     @Override
     public void actualizar(Incidencia incidencia) {
-        String sql = "UPDATE incidencias SET nombreincidencia = ?, descripcion = ?, horasestimadas = ?, " +
-                    "estado = ?, fechaactualizacion = ? WHERE id = ?";
+        String sql = "UPDATE incidencias SET estadoid = ?, fechaactualizacion = ? WHERE id = ?";
         
         try (Connection conn = dbConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            
-            stmt.setString(1, incidencia.getNombreIncidencia());
-            stmt.setString(2, incidencia.getDescripcion());
-            stmt.setDouble(3, incidencia.getHorasEstimadas());
-            stmt.setString(4, incidencia.getEstado().getDescripcion());
-            stmt.setTimestamp(5, new Timestamp(new Date().getTime()));
-            stmt.setInt(6, incidencia.getId());
+        	
+            stmt.setInt(1, 2);
+            stmt.setTimestamp(2, new Timestamp(incidencia.getFechaCreacion().getTime()));
+            stmt.setInt(3, incidencia.getId());
             
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Error al actualizar incidencia", e);
+            throw new RuntimeException("Error al actualizar incidencia: " + e.getMessage(), e);
         }
     }
 

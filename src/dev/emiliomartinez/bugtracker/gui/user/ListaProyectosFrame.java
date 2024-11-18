@@ -51,7 +51,9 @@ public class ListaProyectosFrame extends JFrame {
         tablaProyectos = new JTable(modeloTabla);
         
         tablaProyectos.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer("Ver Detalle"));
-        tablaProyectos.getColumnModel().getColumn(3).setCellEditor(new ButtonEditor("Ver Detalle"));
+        tablaProyectos.getColumnModel().getColumn(3).setCellEditor(
+            new ButtonEditor("Ver Detalle", tablaProyectos)
+        );
         
         tablaProyectos.getColumnModel().getColumn(0).setPreferredWidth(50);  // ID
         tablaProyectos.getColumnModel().getColumn(1).setPreferredWidth(300); // Nombre

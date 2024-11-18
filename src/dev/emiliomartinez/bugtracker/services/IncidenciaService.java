@@ -1,5 +1,7 @@
 package dev.emiliomartinez.bugtracker.services;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import dev.emiliomartinez.bugtracker.dao.IncidenciaDAO;
 import dev.emiliomartinez.bugtracker.entities.Incidencia;
 
@@ -19,7 +21,16 @@ public class IncidenciaService {
         return incidenciaDAO.obtenerIncidenciasPorProyecto(proyectoId);
     }
     
-    public void actualizarIncidencia(Incidencia incidencia) {
-        incidenciaDAO.actualizar(incidencia);
+    public Optional<Incidencia> obtenerPorId(Integer id) {
+        return incidenciaDAO.obtenerPorId(id);
+    }
+    
+    public void cerrarIncidencia(Integer incidenciaId) {
+        Optional<Incidencia> optIncidencia = incidenciaDAO.obtenerPorId(incidenciaId);
+        optIncidencia.ifPresent(incidencia -> {
+            incidencia.setEstadoId(2);
+            incidencia.setFechaActualizacion(new Date());
+            incidenciaDAO.actualizar(incidencia);
+        });
     }
 }
