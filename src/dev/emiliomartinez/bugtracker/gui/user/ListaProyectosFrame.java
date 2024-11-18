@@ -44,7 +44,7 @@ public class ListaProyectosFrame extends JFrame {
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 3; // Solo el botón es editable
+                return column == 3;
             }
         };
         

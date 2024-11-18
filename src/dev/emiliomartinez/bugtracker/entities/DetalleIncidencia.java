@@ -4,11 +4,11 @@ import java.util.Date;
 public class DetalleIncidencia {
     private Integer id;
     private Integer incidenciaId;
-    private Double tareaRealizada;
-    private Double horasInvertidas;
+    private String tareaRealizada;
+    private Integer horasInvertidas;
     private Date fechaCreacion;
 
-    public DetalleIncidencia(Integer incidenciaId, Double tareaRealizada, Double horasInvertidas) {
+    public DetalleIncidencia(Integer incidenciaId, String tareaRealizada, Integer horasInvertidas) {
         this.incidenciaId = incidenciaId;
         this.tareaRealizada = tareaRealizada;
         this.horasInvertidas = horasInvertidas;
@@ -16,8 +16,8 @@ public class DetalleIncidencia {
     }
 
     // full constructor
-    public DetalleIncidencia(Integer id, Integer incidenciaId, Double tareaRealizada, 
-                            Double horasInvertidas, Date fechaCreacion) {
+    public DetalleIncidencia(Integer id, Integer incidenciaId, String tareaRealizada, 
+                            Integer horasInvertidas, Date fechaCreacion) {
         this.id = id;
         this.incidenciaId = incidenciaId;
         this.tareaRealizada = tareaRealizada;
@@ -34,11 +34,11 @@ public class DetalleIncidencia {
         return incidenciaId;
     }
 
-    public Double getTareaRealizada() {
+    public String getTareaRealizada() {
         return tareaRealizada;
     }
 
-    public Double getHorasInvertidas() {
+    public Integer getHorasInvertidas() {
         return horasInvertidas;
     }
 
@@ -55,11 +55,11 @@ public class DetalleIncidencia {
         this.incidenciaId = incidenciaId;
     }
 
-    public void setTareaRealizada(Double tareaRealizada) {
+    public void setTareaRealizada(String tareaRealizada) {
         this.tareaRealizada = tareaRealizada;
     }
 
-    public void setHorasInvertidas(Double horasInvertidas) {
+    public void setHorasInvertidas(Integer horasInvertidas) {
         this.horasInvertidas = horasInvertidas;
     }
 

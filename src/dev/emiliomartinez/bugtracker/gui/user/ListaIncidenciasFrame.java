@@ -4,7 +4,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.text.SimpleDateFormat;
 import java.util.List;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -38,14 +37,12 @@ public class ListaIncidenciasFrame extends JFrame {
     }
 
     private void initComponents() {
-        // Panel título
         JPanel titlePanel = new JPanel();
         JLabel titleLabel = new JLabel("PROYECTO: " + nombreProyecto);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
         titlePanel.add(titleLabel);
         add(titlePanel, BorderLayout.NORTH);
 
-        // Tabla
         String[] columnas = {"ID", "Nombre", "Horas Est.", "Estado", "Fecha Creación", "", ""};
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
@@ -59,17 +56,20 @@ public class ListaIncidenciasFrame extends JFrame {
         ButtonRenderer buttonRenderer = new ButtonRenderer("");
         tablaIncidencias.getColumnModel().getColumn(5).setCellRenderer(buttonRenderer);
         tablaIncidencias.getColumnModel().getColumn(5).setCellEditor(
-            new ButtonEditor("Ver Detalle", tablaIncidencias) {
-                @Override
-                public Object getCellEditorValue() {
-                    if (isPushed()) {
-                        System.out.println("Ver detalle");
-                    }
-                    setPushed(false);
-                    return label();
-                }
-            }
-        );
+        	    new ButtonEditor("Ver Detalle", tablaIncidencias) {
+        	        @Override
+        	        public Object getCellEditorValue() {
+        	            if (isPushed()) {
+        	                int row = table.getSelectedRow();
+        	                Integer incidenciaId = (Integer)table.getValueAt(row, 0);
+        	                String nombreIncidencia = (String)table.getValueAt(row, 1);
+        	                new DetalleIncidenciaFrame(incidenciaId, nombreProyecto, nombreIncidencia);
+        	            }
+        	            setPushed(false);
+        	            return label();
+        	        }
+        	    }
+        	);
 
         tablaIncidencias.getColumnModel().getColumn(6).setCellRenderer(buttonRenderer);
         tablaIncidencias.getColumnModel().getColumn(6).setCellEditor(
@@ -90,7 +90,6 @@ public class ListaIncidenciasFrame extends JFrame {
         JScrollPane scrollPane = new JScrollPane(tablaIncidencias);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Botón crear incidencia
         JButton crearIncidenciaBtn = new JButton("Crear Incidencia");
         crearIncidenciaBtn.addActionListener(e -> mostrarDialogoCrearIncidencia());
 

@@ -11,11 +11,11 @@ public class DetalleIncidenciaService {
         this.detalleDAO = new DetalleIncidenciaDAO();
     }
     
-    public void crearDetalle(Integer incidenciaId, Double tareaRealizada, Double horasInvertidas) {
+    public void crearDetalle(Integer incidenciaId, String tareaRealizada, Integer horasInvertidas) {
         if (incidenciaId == null || incidenciaId <= 0) {
             throw new IllegalArgumentException("ID de incidencia inválido");
         }
-        if (tareaRealizada == null || tareaRealizada < 0) {
+        if (tareaRealizada == null) {
             throw new IllegalArgumentException("Tarea realizada inválida");
         }
         if (horasInvertidas == null || horasInvertidas < 0) {
@@ -49,4 +49,9 @@ public class DetalleIncidenciaService {
         }
         detalleDAO.actualizar(detalle);
     }
+    
+    public Integer obtenerHorasConsumidas(Integer incidenciaId) {
+        return detalleDAO.obtenerHorasConsumidas(incidenciaId);
+    }
+    
 }

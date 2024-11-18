@@ -33,8 +33,8 @@ public class DetalleIncidenciaDAO implements IDAO<DetalleIncidencia> {
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             
             stmt.setInt(1, detalle.getIncidenciaId());
-            stmt.setDouble(2, detalle.getTareaRealizada());
-            stmt.setDouble(3, detalle.getHorasInvertidas());
+            stmt.setString(2, detalle.getTareaRealizada());
+            stmt.setInt(3, detalle.getHorasInvertidas());
             stmt.setTimestamp(4, new Timestamp(detalle.getFechaCreacion().getTime()));
             
             stmt.executeUpdate();
@@ -71,11 +71,30 @@ public class DetalleIncidenciaDAO implements IDAO<DetalleIncidencia> {
         return new DetalleIncidencia(
             rs.getInt("id"),
             rs.getInt("incidenciaid"),
-            rs.getDouble("tarearealizada"),
-            rs.getDouble("horasinvertidas"),
+            rs.getString("tarearealizada"),
+            rs.getInt("horasinvertidas"),
             rs.getTimestamp("fechacreacion")
         );
     }
+    
+    public Integer obtenerHorasConsumidas(Integer incidenciaId) {
+        String sql = "SELECT SUM(horasinvertidas) as total FROM detalleincidencia WHERE incidenciaid = ?";
+        
+        try (Connection conn = dbConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, incidenciaId);
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+            return 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al obtener horas consumidas", e);
+        }
+    }
+
 
 	@Override
 	public Optional<DetalleIncidencia> obtenerPorId(Integer id) {
