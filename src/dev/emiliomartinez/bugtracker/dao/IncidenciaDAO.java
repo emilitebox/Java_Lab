@@ -23,18 +23,19 @@ public class IncidenciaDAO implements IDAO<Incidencia> {
 
     public void guardar(Incidencia incidencia) {
         String sql = "INSERT INTO incidencias (nombreincidencia, descripcion, horasestimadas, " +
-                    "estadoid, proyectoid, fechacreacion, fechaactualizacion) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    "estadoid, proyectoid, fechacreacion, fechaactualizacion, responsableid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
         try (Connection conn = dbConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             
             stmt.setString(1, incidencia.getNombreIncidencia());
             stmt.setString(2, incidencia.getDescripcion());
-            stmt.setDouble(3, incidencia.getHorasEstimadas());
+            stmt.setInt(3, incidencia.getHorasEstimadas());
             stmt.setInt(4, 1);
             stmt.setInt(5, incidencia.getProyectoId());
             stmt.setTimestamp(6, new Timestamp(incidencia.getFechaCreacion().getTime()));
             stmt.setTimestamp(7, null);
+            stmt.setInt(8, incidencia.getResponsableId());
             
             int affectedRows = stmt.executeUpdate();
             
@@ -98,11 +99,12 @@ public class IncidenciaDAO implements IDAO<Incidencia> {
             rs.getInt("id"),
             rs.getString("nombreincidencia"),
             rs.getString("descripcion"),
-            rs.getDouble("horasestimadas"),
+            rs.getInt("horasestimadas"),
             rs.getInt("estadoId"),
             rs.getInt("proyectoid"),
             rs.getTimestamp("fechacreacion"),
-            rs.getTimestamp("fechaactualizacion")
+            rs.getTimestamp("fechaactualizacion"),
+            rs.getInt("responsableid")
         );
     }
 

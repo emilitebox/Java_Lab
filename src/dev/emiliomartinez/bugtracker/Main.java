@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("LABI: BUG TRACKER");
         
-        Integer USER_ID = 3;
+        Integer USER_ID = 2;
         try {
             SessionManager.getInstance().initSession(USER_ID);
             SwingUtilities.invokeLater(() -> {

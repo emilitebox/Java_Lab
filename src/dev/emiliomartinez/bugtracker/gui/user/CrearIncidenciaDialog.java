@@ -77,7 +77,7 @@ class CrearIncidenciaDialog extends JDialog {
         try {
             String nombre = nombreField.getText().trim();
             String descripcion = descripcionArea.getText().trim();
-            Double horas = Double.parseDouble(horasField.getText().trim());
+            Integer horas = Integer.parseInt(horasField.getText().trim());
 
             if (nombre.isEmpty()) {
                 throw new IllegalArgumentException("El nombre no puede estar vacío");

@@ -5,13 +5,14 @@ public class Incidencia {
     private Integer id;
     private String nombreIncidencia;
     private String descripcion;
-    private Double horasEstimadas;
+    private Integer horasEstimadas;
     private Integer estadoId;
     private Integer proyectoId;
     private Date fechaCreacion;
     private Date fechaActualizacion;
+    private Integer responsableid;
 
-    public Incidencia(String nombreIncidencia, String descripcion, Double horasEstimadas, Integer proyectoId) {
+    public Incidencia(String nombreIncidencia, String descripcion, Integer horasEstimadas, Integer proyectoId, Integer responsableid) {
         this.nombreIncidencia = nombreIncidencia;
         this.descripcion = descripcion;
         this.horasEstimadas = horasEstimadas;
@@ -19,11 +20,12 @@ public class Incidencia {
         this.estadoId = 1;
         this.fechaCreacion = new Date();
         this.fechaActualizacion = new Date();
+        this.responsableid = responsableid;
     }
 
     // Full Constructor
-    public Incidencia(Integer id, String nombreIncidencia, String descripcion, Double horasEstimadas, 
-                     Integer estadoId, Integer proyectoId, Date fechaCreacion, Date fechaActualizacion) {
+    public Incidencia(Integer id, String nombreIncidencia, String descripcion, Integer horasEstimadas, 
+                     Integer estadoId, Integer proyectoId, Date fechaCreacion, Date fechaActualizacion, Integer responsableid) {
         this.id = id;
         this.nombreIncidencia = nombreIncidencia;
         this.descripcion = descripcion;
@@ -32,6 +34,8 @@ public class Incidencia {
         this.proyectoId = proyectoId;
         this.fechaCreacion = fechaCreacion;
         this.fechaActualizacion = fechaActualizacion;
+        this.responsableid = responsableid;
+
     }
 
     // Getters
@@ -47,7 +51,7 @@ public class Incidencia {
         return descripcion;
     }
 
-    public Double getHorasEstimadas() {
+    public Integer getHorasEstimadas() {
         return horasEstimadas;
     }
 
@@ -66,6 +70,10 @@ public class Incidencia {
     public Date getFechaActualizacion() {
         return fechaActualizacion;
     }
+    
+    public Integer getResponsableId() {
+        return responsableid;
+    }
 
     // Setters
     public void setId(Integer id) {
@@ -80,7 +88,7 @@ public class Incidencia {
         this.descripcion = descripcion;
     }
 
-    public void setHorasEstimadas(Double horasEstimadas) {
+    public void setHorasEstimadas(Integer horasEstimadas) {
         this.horasEstimadas = horasEstimadas;
     }
 
@@ -98,6 +106,10 @@ public class Incidencia {
 
     public void setFechaActualizacion(Date fechaActualizacion) {
         this.fechaActualizacion = fechaActualizacion;
+    }
+    
+    public Integer setResponsableId() {
+        return responsableid;
     }
 
     @Override

@@ -2,6 +2,8 @@ package dev.emiliomartinez.bugtracker.services;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import dev.emiliomartinez.bugtracker.SessionManager;
 import dev.emiliomartinez.bugtracker.dao.IncidenciaDAO;
 import dev.emiliomartinez.bugtracker.entities.Incidencia;
 
@@ -12,8 +14,11 @@ public class IncidenciaService {
         this.incidenciaDAO = new IncidenciaDAO();
     }
     
-    public void crearIncidencia(String nombre, String descripcion, Double horasEstimadas, Integer proyectoId) {
-        Incidencia incidencia = new Incidencia(nombre, descripcion, horasEstimadas, proyectoId);
+    public void crearIncidencia(String nombre, String descripcion, Integer horasEstimadas, Integer proyectoId) {
+    	
+    	Integer userId = SessionManager.getInstance().getCurrentUserId();
+    	
+        Incidencia incidencia = new Incidencia(nombre, descripcion, horasEstimadas, proyectoId, userId);
         incidenciaDAO.guardar(incidencia);
     }
     
